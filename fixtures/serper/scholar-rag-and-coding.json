@@ -1,0 +1,92 @@
+{
+  "topics": [
+    "retrieval-augmented generation",
+    "rag",
+    "academic",
+    "literature",
+    "code search",
+    "literature review"
+  ],
+  "organic": [
+    {
+      "title": "Agentic Coding Benchmarks: A Systematic Evaluation of 12 Systems",
+      "link": "https://arxiv.org/abs/2603.01234",
+      "snippet": "We evaluate 12 agentic coding systems on 1,040 repository-level tasks. The best system completes 41% of tasks end-to-end without human intervention.",
+      "publicationInfo": {
+        "summary": "We evaluate 12 agentic coding systems on 1,040 repository-level tasks. The best system completes 41% of tasks end-to-end without human intervention.",
+        "authors": [
+          {
+            "name": "R. Okonkwo",
+            "link": "https://arxiv.org/a/okonkwo_r_1"
+          },
+          {
+            "name": "M. Alvarez",
+            "link": "https://arxiv.org/a/alvarez_m_1"
+          }
+        ],
+        "year": "2026",
+        "publicationdate": "Mar 3, 2026"
+      },
+      "citedBy": 41,
+      "link": "https://arxiv.org/abs/2603.01234",
+      "result_id": "abs/2603.01234"
+    },
+    {
+      "title": "Retrieval-augmented generation for cross-file code search",
+      "link": "https://arxiv.org/abs/2601.07771",
+      "snippet": "RAG over code repositories improves retrieval precision by 22% versus BM25 baselines on cross-file questions.",
+      "publicationInfo": {
+        "summary": "RAG over code repositories improves retrieval precision by 22% versus BM25 baselines on cross-file questions.",
+        "authors": [
+          {
+            "name": "S. Nakamura",
+            "link": "https://arxiv.org/a/nakamura_s_1"
+          }
+        ],
+        "year": "2026",
+        "publicationdate": "Jan 12, 2026"
+      },
+      "citedBy": 128,
+      "link": "https://arxiv.org/abs/2601.07771",
+      "result_id": "abs/2601.07771"
+    },
+    {
+      "title": "Stack Overflow Developer Survey 2025: AI",
+      "link": "https://survey.stackoverflow.co/2025/ai",
+      "snippet": "84% of professional developers use or plan to use AI coding tools. Trust and accuracy perceptions are reported in detail.",
+      "publicationInfo": {
+        "summary": "84% of professional developers use or plan to use AI coding tools.",
+        "authors": [
+          {
+            "name": "Stack Overflow",
+            "link": "https://stackoverflow.blog"
+          }
+        ],
+        "year": "2025",
+        "publicationdate": "Jul 22, 2025"
+      },
+      "citedBy": 612,
+      "link": "https://survey.stackoverflow.co/2025/ai",
+      "result_id": "serp-6141"
+    },
+    {
+      "title": "Research: quantifying GitHub Copilot's impact",
+      "link": "https://github.blog/news-insights/research/research-quantifying-github-copilots-impact-on-developer-productivity-and-happiness/",
+      "snippet": "In controlled studies developers accepted just over 30% of Copilot's code suggestions.",
+      "publicationInfo": {
+        "summary": "Developers accepted just over 30% of Copilot's code suggestions in controlled studies.",
+        "authors": [
+          {
+            "name": "GitHub Research",
+            "link": "https://github.blog"
+          }
+        ],
+        "year": "2024",
+        "publicationdate": "Feb 14, 2024"
+      },
+      "citedBy": 2044,
+      "link": "https://github.blog/news-insights/research/research-quantifying-github-copilots-impact-on-developer-productivity-and-happiness/",
+      "result_id": "serp-3310"
+    }
+  ]
+}

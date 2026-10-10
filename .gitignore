@@ -1,0 +1,12 @@
+.env
+outputs/
+data/*
+!data/.gitkeep
+__pycache__/
+*.pyc
+.pytest_cache/
+.cache/
+*.egg-info/
+.venv/
+venv/
+samples/*.tmp.json.streamlit/secrets.toml

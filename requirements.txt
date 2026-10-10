@@ -1,0 +1,20 @@
+# Multi-Agent Research Assistant — pinned deps.
+# NOTE: crewai 1.15.x hard-requires pydantic>=2.11.9,<2.13. Do NOT install these
+# into a shared interpreter; the engine only ever runs inside the crew-api
+# container built from this file (python:3.12-slim).
+
+crewai[google-genai]==1.15.23
+crewai-tools==1.15.23
+litellm>=1.84
+anthropic>=0.40
+pydantic>=2.11.9,<2.13
+fastapi>=0.115
+uvicorn[standard]>=0.30
+requests>=2.32
+tenacity>=9.0
+beautifulsoup4>=4.12
+python-dotenv>=1.0
+pytest>=8
+fpdf2>=2.7.0
+# Streamlit front end (streamlit_app.py)
+streamlit>=1.40

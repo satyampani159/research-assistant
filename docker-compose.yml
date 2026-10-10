@@ -1,0 +1,80 @@
+services:
+  crew-api:
+    build: .
+    container_name: crew-api
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      CREW_API_URL: http://crew-api:8000
+      OUTPUT_DIR: /app/outputs
+      OLLAMA_HOST: http://ollama:11434
+    ports:
+      - "${API_PORT:-8010}:8000"
+    volumes:
+      - ./data:/data
+      - ./outputs:/app/outputs
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request;urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 15s
+      timeout: 30s
+      retries: 10
+    dns: [8.8.8.8, 1.1.1.1]
+    restart: unless-stopped
+
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: research-n8n
+    environment:
+      N8N_DIAGNOSTICS_ENABLED: "false"
+      N8N_RUNNERS_ENABLED: "true"
+      CREW_API_URL: http://crew-api:8000
+      SLACK_WEBHOOK_URL: ${SLACK_WEBHOOK_URL:-}
+      GENERIC_TIMEZONE: UTC
+      TZ: UTC
+      # n8n 2.x blocks $env in expressions and disables the file nodes by default;
+      # the workflow needs both ($env.CREW_API_URL, Read/Write Files -> /data).
+      N8N_BLOCK_ENV_ACCESS_IN_NODE: "false"
+      NODES_EXCLUDE: "[]"
+      N8N_RESTRICT_FILE_ACCESS_TO: /data
+    ports:
+      - "${N8N_PORT:-5678}:5678"
+    volumes:
+      - n8n_data:/home/node/.n8n
+      - ./data:/data
+      - ./n8n/research-assistant.json:/workflow.json:ro
+    depends_on:
+      crew-api:
+        condition: service_healthy
+    restart: unless-stopped
+    entrypoint:
+      - /bin/sh
+      - -c
+      - >-
+        n8n import:workflow --input=/workflow.json || true;
+        n8n publish:workflow --id=researchassistant01 || n8n update:workflow --id=researchassistant01 --active=true || true;
+        exec n8n start
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    # Optional local fallback: docker compose --profile ollama up -d
+    profiles: ["ollama"]
+    environment:
+      OLLAMA_HOST: 0.0.0.0:11434
+      OLLAMA_KEEP_ALIVE: 24h
+    volumes:
+      - ollama_data:/root/.ollama
+    ports:
+      - "11434:11434"
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 90s
+    entrypoint: ["/bin/sh", "-c", "ollama serve & sleep 20 && ollama pull llama3.1:8b && wait"]
+
+volumes:
+  n8n_data:
+  ollama_data:

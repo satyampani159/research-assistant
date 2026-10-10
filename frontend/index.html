@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Research Assistant</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232b5bd7'/%3E%3Cpath d='M9 22V10h7a4 4 0 0 1 0 8h-7m6 0 5 4' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8"/><path d="M9 22V10h7a4 4 0 0 1 0 8h-7m6 0 5 4" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div>
+        <div class="brand-name">Research Assistant</div>
+        <div class="brand-sub">Cited, fact-checked reports</div>
+      </div>
+    </div>
+    <div class="top-right">
+      <div id="providers" class="providers" title="Live status of language-model and search providers"></div>
+      <button id="theme" class="icon-btn" type="button" aria-label="Switch colour theme" title="Switch colour theme">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero card" id="form-card">
+    <p class="eyebrow">New research brief</p>
+    <h1>Research any topic with sources you can check.</h1>
+    <p class="lead">Specialist agents plan the questions, gather evidence, draft the report and verify each claim against the page it cites.</p>
+
+    <form id="form" autocomplete="off">
+      <label class="field" for="topic">
+        <span class="field-label">Topic or question</span>
+        <textarea id="topic" rows="2" required minlength="3" placeholder="e.g. Recent advances in retrieval-augmented generation"></textarea>
+      </label>
+
+      <div class="examples" id="examples" aria-label="Example topics">
+        <span class="examples-label">Try:</span>
+        <button type="button" class="eg">State of AI coding assistants, 2026</button>
+        <button type="button" class="eg">Recent advances in retrieval-augmented generation</button>
+        <button type="button" class="eg">Enterprise adoption of open-weight language models</button>
+      </div>
+
+      <div class="row">
+        <label class="field" for="audience">
+          <span class="field-label">Audience</span>
+          <input id="audience" value="general professional" minlength="2">
+        </label>
+        <label class="field" for="depth">
+          <span class="field-label">Depth</span>
+          <select id="depth">
+            <option value="brief">Brief: 3 research questions</option>
+            <option value="standard" selected>Standard: 4 research questions</option>
+            <option value="deep">Deep: 6 research questions</option>
+          </select>
+        </label>
+        <label class="field" for="max">
+          <span class="field-label">Search budget</span>
+          <input id="max" type="number" min="1" max="200" value="20" inputmode="numeric">
+        </label>
+        <button id="go" class="btn primary" type="submit">Run research</button>
+      </div>
+    </form>
+    <div id="error" class="error" role="alert" hidden></div>
+
+    <ol class="how" aria-label="How it works">
+      <li><b>Plan</b><span>Break the topic into questions</span></li>
+      <li><b>Research</b><span>Search and read sources</span></li>
+      <li><b>Write</b><span>Draft from the evidence only</span></li>
+      <li><b>Verify</b><span>Check claims against pages</span></li>
+      <li><b>Edit</b><span>Cut what cannot be confirmed</span></li>
+    </ol>
+  </section>
+
+  <section class="card" id="progress-card" hidden aria-live="polite">
+    <div class="ph">
+      <div>
+        <h2>Working…</h2>
+        <p class="muted small" id="stage-text">Starting the pipeline</p>
+      </div>
+      <div class="meta"><span id="llm" class="chip llm">Model: detecting…</span><span id="timer" class="chip mono">0:00</span></div>
+    </div>
+    <div class="pbar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="pbar"><span id="pbar-fill"></span></div>
+    <div id="live" class="live"><span class="spinner"></span><span id="live-text">Starting…</span></div>
+    <div id="crews" class="crews"></div>
+    <details class="fold"><summary>Activity log</summary><ul id="log"></ul></details>
+  </section>
+
+  <div id="result-card" class="result" hidden>
+    <div class="result-head">
+      <div>
+        <p class="eyebrow">Report</p>
+        <h2 id="result-title">Report</h2>
+      </div>
+      <div class="actions">
+        <button id="copy" class="btn ghost" type="button">Copy</button>
+        <button id="dl-md" class="btn ghost" type="button">Markdown</button>
+        <button id="dl-bib" class="btn ghost" type="button">BibTeX</button>
+        <button id="dl-pdf" class="btn primary" type="button">Download PDF</button>
+      </div>
+    </div>
+
+    <div id="banner" class="banner" hidden></div>
+
+    <div class="layout">
+      <article class="paper card">
+        <div id="report" class="report"></div>
+      </article>
+
+      <aside class="side">
+        <section class="card panel" aria-label="Summary">
+          <h3>Summary</h3>
+          <div id="metrics" class="stats"></div>
+          <div id="verdict-bar" class="vbar" hidden></div>
+        </section>
+        <nav class="card panel" id="toc-wrap" aria-label="On this page" hidden>
+          <h3>On this page</h3>
+          <ol id="toc"></ol>
+        </nav>
+      </aside>
+    </div>
+
+    <details id="claims-wrap" class="card fold block"><summary>Claim verification <span id="claims-count" class="count"></span></summary><div id="claims"></div></details>
+    <section id="refs-wrap" class="card block" aria-label="References">
+      <h3 class="block-title">References <span id="refs-count" class="count"></span></h3>
+      <div id="refs"></div>
+    </section>
+  </div>
+</main>
+
+<footer class="foot">Every claim is traced to a source. Verification confirms what a page says, not that the page is correct.</footer>
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

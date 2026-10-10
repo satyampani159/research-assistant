@@ -1,0 +1,194 @@
+{
+  "claims": [
+    {
+      "claim_id": "C1",
+      "statement": "84% of professional developers are using or planning to use AI coding tools",
+      "supports": [
+        {
+          "claim_id": "C1",
+          "sub_question_id": "SQ1",
+          "statement": "84% of professional developers are using or planning to use AI coding tools",
+          "url": "https://stackoverflow.blog/2025/07/developer-survey-2025-ai-results/",
+          "publisher": "stackoverflow.blog",
+          "date": null,
+          "retrieved_at": "2026-03-11T09:00:00+00:00",
+          "verbatim_quote": "AI: 84% of professional developers are using or planning to use AI coding tools, up from 61% last year.",
+          "source_tier": 3
+        }
+      ],
+      "conflicts": []
+    },
+    {
+      "claim_id": "C2",
+      "statement": "Only 29% of professional developers trust the accuracy of AI tooling for complex tasks",
+      "supports": [
+        {
+          "claim_id": "C2",
+          "sub_question_id": "SQ1",
+          "statement": "Only 29% of professional developers trust the accuracy of AI tooling for complex tasks",
+          "url": "https://stackoverflow.blog/2025/07/developer-survey-2025-ai-results/",
+          "publisher": "stackoverflow.blog",
+          "date": null,
+          "retrieved_at": "2026-03-11T09:00:00+00:00",
+          "verbatim_quote": "Only 29% of professional developers trust the accuracy of AI tooling for complex tasks, and 46% actively distrust it.",
+          "source_tier": 3
+        }
+      ],
+      "conflicts": []
+    },
+    {
+      "claim_id": "C3",
+      "statement": "Developers accepted just over 30% of Copilot's code suggestions",
+      "supports": [
+        {
+          "claim_id": "C3",
+          "sub_question_id": "SQ1",
+          "statement": "Developers accepted just over 30% of Copilot's code suggestions",
+          "url": "https://github.blog/news-insights/research/research-quantifying-github-copilots-impact-on-developer-productivity-and-happiness/",
+          "publisher": "github.blog",
+          "date": null,
+          "retrieved_at": "2026-03-11T09:00:00+00:00",
+          "verbatim_quote": "In controlled studies, developers accepted just over 30% of Copilot's code suggestions, while perception of productivity doubled.",
+          "source_tier": 3
+        }
+      ],
+      "conflicts": []
+    },
+    {
+      "claim_id": "C4",
+      "statement": "The strongest system completed 41% of tasks end-to-end without human intervention",
+      "supports": [
+        {
+          "claim_id": "C4",
+          "sub_question_id": "SQ2",
+          "statement": "The strongest system completed 41% of tasks end-to-end without human intervention",
+          "url": "https://arxiv.org/abs/2603.01234",
+          "publisher": "arxiv.org",
+          "date": null,
+          "retrieved_at": "2026-03-11T09:00:00+00:00",
+          "verbatim_quote": "The best system completes 41% of tasks end-to-end without human intervention, and median completion across systems is 12%.",
+          "source_tier": 1
+        }
+      ],
+      "conflicts": []
+    },
+    {
+      "claim_id": "C5",
+      "statement": "Task completion drops sharply for tasks requiring more than three file edits",
+      "supports": [
+        {
+          "claim_id": "C5",
+          "sub_question_id": "SQ2",
+          "statement": "Task completion drops sharply for tasks requiring more than three file edits",
+          "url": "https://arxiv.org/abs/2603.01234",
+          "publisher": "arxiv.org",
+          "date": null,
+          "retrieved_at": "2026-03-11T09:00:00+00:00",
+          "verbatim_quote": "Task completion drops sharply for tasks requiring more than three file edits, which account for 58% of the benchmark.",
+          "source_tier": 1
+        }
+      ],
+      "conflicts": []
+    },
+    {
+      "claim_id": "C6",
+      "statement": "Adoption of AI coding agents reached 38% this year, up from 21% a year earlier",
+      "supports": [
+        {
+          "claim_id": "C6",
+          "sub_question_id": "SQ3",
+          "statement": "Adoption of AI coding agents reached 38% this year, up from 21% a year earlier",
+          "url": "https://www.reuters.com/technology/enterprise-adoption-coding-agents-2026-03-11/",
+          "publisher": "reuters.com",
+          "date": null,
+          "retrieved_at": "2026-03-11T09:00:00+00:00",
+          "verbatim_quote": "A Reuters survey of 400 large employers found adoption of AI coding agents reached 38% this year, up from 21% a year earlier.",
+          "source_tier": 2
+        }
+      ],
+      "conflicts": []
+    },
+    {
+      "claim_id": "C7",
+      "statement": "Annual spend on coding agents grew to $1.2B",
+      "supports": [
+        {
+          "claim_id": "C7",
+          "sub_question_id": "SQ3",
+          "statement": "Annual spend on coding agents grew to $1.2B",
+          "url": "https://techcrunch.com/2026/05/12/coding-agents-enterprise-pricing/",
+          "publisher": "techcrunch.com",
+          "date": null,
+          "retrieved_at": "2026-03-11T09:00:00+00:00",
+          "verbatim_quote": "Tooling spend on coding agents grew to $1.2B annually, with most seats sold on annual contracts averaging $480 per developer per month.",
+          "source_tier": 2
+        }
+      ],
+      "conflicts": []
+    },
+    {
+      "claim_id": "C8",
+      "statement": "High-risk AI system obligations apply from 2 August 2026",
+      "supports": [
+        {
+          "claim_id": "C8",
+          "sub_question_id": "SQ3",
+          "statement": "High-risk AI system obligations apply from 2 August 2026",
+          "url": "https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai",
+          "publisher": "digital-strategy.ec.europa.eu",
+          "date": null,
+          "retrieved_at": "2026-03-11T09:00:00+00:00",
+          "verbatim_quote": "High-risk AI system obligations apply from 2 August 2026.",
+          "source_tier": 3
+        }
+      ],
+      "conflicts": []
+    },
+    {
+      "claim_id": "C9",
+      "statement": "The strongest system completed 91% of tasks end-to-end without human intervention",
+      "supports": [
+        {
+          "claim_id": "C9",
+          "sub_question_id": "SQ2",
+          "statement": "The strongest system completed 91% of tasks end-to-end without human intervention",
+          "url": "https://arxiv.org/abs/2603.01234",
+          "publisher": "arxiv.org",
+          "date": null,
+          "retrieved_at": "2026-03-11T09:00:00+00:00",
+          "verbatim_quote": "The best system completes 41% of tasks end-to-end without human intervention, and median completion across systems is 12%.",
+          "source_tier": 1
+        }
+      ],
+      "conflicts": []
+    },
+    {
+      "claim_id": "C10",
+      "statement": "Vendors charge $19 per seat per month",
+      "supports": [
+        {
+          "claim_id": "C10",
+          "sub_question_id": "SQ3",
+          "statement": "Vendors charge $19 per seat per month",
+          "url": "https://techcrunch.com/2026/05/12/coding-agents-enterprise-pricing/",
+          "publisher": "techcrunch.com",
+          "date": null,
+          "retrieved_at": "2026-03-11T09:00:00+00:00",
+          "verbatim_quote": "Per-seat pricing across nine surveyed products ranged from $20 to $195 per month, a spread vendors attribute to differences in included model usage.",
+          "source_tier": 2
+        }
+      ],
+      "conflicts": []
+    }
+  ],
+  "gaps": [
+    "No independent measurement of long-horizon maintenance cost."
+  ],
+  "contradictions": [
+    "Reported trust (29%) is far below reported usage (84%); usage does not imply verification."
+  ],
+  "topic": "State of AI coding assistants, 2026",
+  "depth": "standard",
+  "serper_credits": 0,
+  "generated_from": "fixtures (deterministic, no LLM)"
+}

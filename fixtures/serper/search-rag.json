@@ -1,0 +1,45 @@
+{
+  "topics": [
+    "rag",
+    "retrieval-augmented generation",
+    "vector search",
+    "literature"
+  ],
+  "searchParameters": {
+    "q": "recent advances in retrieval-augmented generation",
+    "num": 8,
+    "gl": "us"
+  },
+  "organic": [
+    {
+      "title": "Retrieval-augmented generation for cross-file code search",
+      "link": "https://arxiv.org/abs/2601.07771",
+      "snippet": "RAG over code repositories improves retrieval precision by 22% versus BM25 baselines on cross-file questions.",
+      "position": 1
+    },
+    {
+      "title": "Agentic Coding Benchmarks: A Systematic Evaluation of 12 Systems",
+      "link": "https://arxiv.org/abs/2603.01234",
+      "snippet": "We evaluate 12 agentic coding systems on 1,040 repository-level tasks. The best system completes 41% of tasks end-to-end.",
+      "position": 2
+    },
+    {
+      "title": "Hybrid retrieval outperforms pure vector search for technical corpora",
+      "link": "https://arxiv.org/abs/2512.03110",
+      "snippet": "Hybrid sparse and dense retrieval improves answer accuracy by 14% on enterprise QA benchmarks.",
+      "position": 3
+    },
+    {
+      "title": "Practical guide to building RAG systems",
+      "link": "https://www.anthropic.com/research/building-effective-rag",
+      "snippet": "A short engineering guide to chunking, reranking and evaluating retrieval-augmented generation pipelines.",
+      "position": 4
+    },
+    {
+      "title": "Evaluating RAG pipelines: metrics and pitfalls",
+      "link": "https://aclanthology.org/2026.rag-eval",
+      "snippet": "We show that answer-level faithfulness scores correlate poorly with human judgement unless retrieval is also measured.",
+      "position": 5
+    }
+  ]
+}

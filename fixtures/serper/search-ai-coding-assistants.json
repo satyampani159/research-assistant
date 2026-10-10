@@ -1,0 +1,100 @@
+{
+  "topics": [
+    "ai coding assistants",
+    "coding agents",
+    "developer survey",
+    "copilot",
+    "claude code",
+    "enterprise adoption"
+  ],
+  "searchParameters": {
+    "q": "state of AI coding assistants 2026",
+    "num": 10,
+    "gl": "us",
+    "cr": "no country"
+  },
+  "knowledgeGraph": {
+    "title": "AI coding assistants",
+    "type": "Topic",
+    "description": "Software engineering tools that generate, review and refactor code",
+    "descriptionLink": "https://en.wikipedia.org/wiki/Programming_assistant"
+  },
+  "organic": [
+    {
+      "title": "Developer Survey 2025: AI results",
+      "link": "https://stackoverflow.blog/2025/07/developer-survey-2025-ai-results/",
+      "snippet": "AI: 84% of professional developers are using or planning to use AI coding tools, up from 61% last year. The survey gathered responses from 49,000 developers.",
+      "date": "Jul 22, 2025",
+      "position": 1,
+      "sitelinks": [
+        {
+          "title": "AI section",
+          "link": "https://survey.stackoverflow.co/2025/ai"
+        }
+      ]
+    },
+    {
+      "title": "Research: quantifying GitHub Copilot's impact on developer productivity and happiness",
+      "link": "https://github.blog/news-insights/research/research-quantifying-github-copilots-impact-on-developer-productivity-and-happiness/",
+      "snippet": "In controlled studies, developers accepted just over 30% of Copilot's code suggestions, while perception of productivity doubled.",
+      "date": "Feb 14, 2024",
+      "position": 2
+    },
+    {
+      "title": "Agentic Coding Benchmarks: A Systematic Evaluation of 12 Systems",
+      "link": "https://arxiv.org/abs/2603.01234",
+      "snippet": "We evaluate 12 agentic coding systems on 1,040 repository-level tasks. The best system completes 41% of tasks end-to-end without human intervention.",
+      "date": "Mar 3, 2026",
+      "position": 3
+    },
+    {
+      "title": "Claude Code overview - Anthropic docs",
+      "link": "https://docs.anthropic.com/en/docs/claude-code/overview",
+      "snippet": "Claude Code is an agentic coding tool that runs in your terminal. It reads and edits files, runs commands, and works with a 200,000 token context window.",
+      "date": "Sep 30, 2026",
+      "position": 4
+    },
+    {
+      "title": "Enterprise adoption of coding agents rose to 38%",
+      "link": "https://www.reuters.com/technology/enterprise-adoption-coding-agents-2026-03-11/",
+      "snippet": "A survey of 400 large employers found adoption of AI coding agents reached 38% this year, up from 21% a year earlier. Budgets are shifting from pilot to line-item.",
+      "date": "Mar 11, 2026",
+      "position": 5
+    },
+    {
+      "title": "Coding agents reshape developer tooling budgets",
+      "link": "https://techcrunch.com/2026/05/12/coding-agents-enterprise-pricing/",
+      "snippet": "Tooling spend on coding agents grew to $1.2B annually, with most seats sold on annual contracts averaging $480 per developer per month.",
+      "date": "May 12, 2026",
+      "position": 6
+    },
+    {
+      "title": "AI Act - regulatory framework",
+      "link": "https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai",
+      "snippet": "High-risk AI system obligations under the AI Act apply from 2 August 2026. AI systems used in recruitment and worker management are classified as high-risk.",
+      "date": "Jun 1, 2026",
+      "position": 7
+    },
+    {
+      "title": "How teams are reviewing agent-generated code",
+      "link": "https://survey.stackoverflow.co/2025/ai",
+      "snippet": "Developers reported trusting AI suggestions for boilerplate far more than for security-sensitive changes.",
+      "date": "Jul 22, 2025",
+      "position": 8
+    },
+    {
+      "title": "Coding agent pricing comparison 2026",
+      "link": "https://www.gartner.com/en/newsroom/press-releases/2026-04-22-coding-agent-pricing",
+      "snippet": "Gartner tracked 9 coding assistant products and found median list pricing of $40 per seat per month.",
+      "date": "Apr 22, 2026",
+      "position": 9
+    },
+    {
+      "title": "Retrieval-augmented generation for code search",
+      "link": "https://arxiv.org/abs/2601.07771",
+      "snippet": "RAG over code repositories improves retrieval precision by 22% versus BM25 baselines on cross-file questions.",
+      "date": "Jan 12, 2026",
+      "position": 10
+    }
+  ]
+}

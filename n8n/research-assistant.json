@@ -1,0 +1,384 @@
+{
+  "name": "Multi-Agent Research Assistant",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "research-assistant",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "a1000000-0000-4000-8000-000000000001",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -560,
+        300
+      ],
+      "webhookId": "b2000000-0000-4000-8000-000000000001"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"topic\": {{ JSON.stringify($json.body.topic || 'State of AI coding assistants, 2026') }},\n  \"audience\": {{ JSON.stringify($json.body.audience || 'general professional') }},\n  \"depth\": {{ JSON.stringify($json.body.depth || 'brief') }},\n  \"max_searches\": {{ $json.body.max_searches || 20 }},\n  \"attempt\": 1\n}",
+        "options": {}
+      },
+      "id": "a1000000-0000-4000-8000-000000000002",
+      "name": "Set request",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -340,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.CREW_API_URL || 'http://crew-api:8000' }}/research",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "timeout": 1800000,
+          "response": {
+            "response": {
+              "neverError": false,
+              "fullResponse": false
+            }
+          }
+        }
+      },
+      "id": "a1000000-0000-4000-8000-000000000003",
+      "name": "POST /research",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -120,
+        300
+      ],
+      "notes": "30 min timeout: Ollama 8b brief can exceed 10 min (was 600000)"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "repair-needed",
+              "leftValue": "={{ $json.metrics.repair_needed }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "first-attempt",
+              "leftValue": "={{ $('Set request').first().json.attempt }}",
+              "rightValue": 1,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": false,
+        "options": {}
+      },
+      "id": "a1000000-0000-4000-8000-000000000004",
+      "name": "IF repair needed?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        100,
+        300
+      ],
+      "notes": "repair_needed AND attempt = 1 — single pass, no back-edge"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"attempt\": 2,\n  \"topic\": {{ JSON.stringify($('Set request').first().json.topic) }}\n}",
+        "options": {}
+      },
+      "id": "a1000000-0000-4000-8000-000000000005",
+      "name": "Set attempt=2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        320,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.CREW_API_URL || 'http://crew-api:8000' }}/repair",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ topic: $('Set request').first().json.topic, claims: $('POST /research').first().json.claims.filter(c => c.verdict !== 'VERIFIED').map(c => ({ id: c.id, statement: c.statement })) }) }}",
+        "options": {
+          "timeout": 1800000
+        }
+      },
+      "id": "a1000000-0000-4000-8000-000000000006",
+      "name": "POST /repair",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        540,
+        160
+      ],
+      "notes": "Re-searches only the failed claim ids"
+    },
+    {
+      "parameters": {
+        "mode": "append",
+        "numberInputs": 2
+      },
+      "id": "a1000000-0000-4000-8000-000000000007",
+      "name": "Merge",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        760,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Merge the research report with the optional repair result into one\n// delivery payload. Graceful degradation: a failed repair never blocks delivery.\nconst report = $('POST /research').first().json || {};\nconst repair = $input.all().map(i => i.json).find(r => r.repaired_claims !== undefined) || {};\n\nconst topic = $('Set request').first().json.topic;\nconst claims = report.claims || [];\nconst failed = claims.filter(c => c.verdict !== 'VERIFIED');\nconst repairedIds = new Set((repair.repaired_claims || []).filter(r => r.repaired).map(r => r.id));\nconst metrics = Object.assign({}, report.metrics, {\n  repair_attempted: repair.repaired_claims !== undefined,\n  repair_credits: repair.serper_credits || 0,\n  repaired_claims: repairedIds.size,\n});\n\nconst references = (report.references || [])\n  .map((r, i) => ({\n    title: r.title || r.url,\n    publisher: r.publisher || 'unknown',\n    date: r.date || 'n.d.',\n    url: r.url\n  }));\n\nconst summary = [\n  `*${topic}*`,\n  `claims: ${claims.length} · unverified: ${failed.length} · repaired: ${repairedIds.size}`,\n  `serper credits: ${metrics.serper_credits} (+${metrics.repair_credits} repair) · ${metrics.duration_s}s · ${metrics.tokens} tokens`,\n].join('\\n');\n\nreturn [{\n  json: {\n    topic,\n    report_md: report.report_md || '_No report returned._',\n    references,\n    claims,\n    failed_claims: failed,\n    repaired_claims: [...repairedIds],\n    metrics,\n    summary,\n    delivered_at: new Date().toISOString(),\n  },\n}];"
+      },
+      "id": "a1000000-0000-4000-8000-000000000008",
+      "name": "Format payload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        980,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Convert report_md text to binary for the Write Files node.\nconst out = [];\nfor (const item of $input.all()) {\n  const buf = Buffer.from(item.json.report_md || '', 'utf8');\n  out.push({\n    json: item.json,\n    binary: { data: await this.helpers.prepareBinaryData(buf, 'report.md', 'text/markdown') },\n  });\n}\nreturn out;"
+      },
+      "id": "a1000000-0000-4000-8000-000000000009",
+      "name": "Make binary",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        300
+      ],
+      "notes": "Converts report_md string to binary field 'data' for Write Files node"
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "=/data/report-{{ $now.toFormat('yyyyMMdd-HHmmss') }}.md",
+        "options": {},
+        "dataPropertyName": "data"
+      },
+      "id": "a1000000-0000-4000-8000-00000000000a",
+      "name": "Write /data/report.md",
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        1420,
+        300
+      ],
+      "notes": "Writes the report to the volume mounted from ./data"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.SLACK_WEBHOOK_URL }}",
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ text: $('Format payload').first().json.summary }) }}",
+        "options": {}
+      },
+      "id": "a1000000-0000-4000-8000-00000000000b",
+      "name": "Slack",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1640,
+        300
+      ],
+      "onError": "continueRegularOutput",
+      "alwaysOutputData": true,
+      "notes": "Skipped harmlessly when SLACK_WEBHOOK_URL is empty"
+    },
+    {
+      "parameters": {
+        "options": {},
+        "respondWith": "json",
+        "responseCode": 200,
+        "responseBody": "={{ JSON.stringify($('Format payload').first().json) }}"
+      },
+      "id": "a1000000-0000-4000-8000-00000000000c",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1860,
+        300
+      ],
+      "notes": "Sends final JSON back to webhook caller AFTER file is written"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Set request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set request": {
+      "main": [
+        [
+          {
+            "node": "POST /research",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "POST /research": {
+      "main": [
+        [
+          {
+            "node": "IF repair needed?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF repair needed?": {
+      "main": [
+        [
+          {
+            "node": "Set attempt=2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set attempt=2": {
+      "main": [
+        [
+          {
+            "node": "POST /repair",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "POST /repair": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Format payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format payload": {
+      "main": [
+        [
+          {
+            "node": "Make binary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Make binary": {
+      "main": [
+        [
+          {
+            "node": "Write /data/report.md",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write /data/report.md": {
+      "main": [
+        [
+          {
+            "node": "Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "abd7f12a-8b67-4707-8a3e-132222e59250",
+  "meta": {
+    "instanceId": "research-assistant"
+  },
+  "tags": [],
+  "id": "researchassistant01"
+}
